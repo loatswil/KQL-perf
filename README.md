@@ -5,7 +5,6 @@ Here you will find basic examples of using the KUSTO Query language for use in A
 
 Most original sources are no longer cited as much of the code has changed or been updated to suit my own needs.
 
-
 Top 5 running processes in the last 3 days
 
 let RunProcesses = SecurityEvent
