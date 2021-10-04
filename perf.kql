@@ -1,3 +1,22 @@
+//Top CPU offenders
+let TopCPUMaxServers = Perf
+| where ObjectName == "Processor" and CounterName == "% Processor Time" 
+| summarize Max_CPU = max(CounterValue) by Computer, CounterName
+| top 10 by Max_CPU  asc nulls last
+| project Computer;
+Perf 
+| where Computer in (TopCPUMaxServers)
+| where ObjectName == "Processor" and CounterName == "% Processor Time"
+| summarize avg(CounterValue) by bin(TimeGenerated, 1h), Computer
+| render timechart 
+
+// Basci CPU graph
+Perf
+| where Computer == "ComputerName"
+| where ObjectName == "Processor" and CounterName == "% Processor Time"
+| summarize HourlyUsage = avg(CounterValue) by bin(TimeGenerated, 1h),  Computer 
+| render timechart 
+
 let RunProcesses = SecurityEvent
 | where TimeGenerated > ago(3d)
 | where EventID == '4688';
